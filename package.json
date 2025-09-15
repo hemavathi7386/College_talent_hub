@@ -1,0 +1,18 @@
+{
+  "name": "college-talent-hub",
+  "version": "1.0.0",
+  "description": "College Talent Hub for Centurion University of Technology and Management",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && npm run dev",
+    "client": "cd frontend && npm start",
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+  },
+  "keywords": ["mern", "college", "talent", "hub"],
+  "author": "Centurion University",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
