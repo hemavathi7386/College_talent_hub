@@ -155,7 +155,7 @@ const Competitions = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -176,7 +176,7 @@ const Competitions = () => {
         {user?.role === 'faculty' && (
           <button
             onClick={() => setShowCreateCompetition(true)}
-            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors"
           >
             <Plus className="h-4 w-4" />
             <span>Create Competition</span>
@@ -193,7 +193,7 @@ const Competitions = () => {
             placeholder="Search competitions..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
         <div className="flex items-center space-x-2">
@@ -201,7 +201,7 @@ const Competitions = () => {
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
           >
             <option value="all">All Categories</option>
             <option value="technical">Technical</option>
@@ -324,7 +324,7 @@ const Competitions = () => {
                   <button
                     type="button"
                     onClick={addPrize}
-                    className="text-blue-600 hover:text-blue-700 text-sm transition-colors"
+                    className="text-primary hover:text-primary-dark text-sm transition-colors"
                   >
                     + Add Prize
                   </button>
@@ -362,7 +362,7 @@ const Competitions = () => {
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
                   >
                     Create Competition
                   </button>
@@ -388,7 +388,7 @@ const Competitions = () => {
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">{competition.title}</h3>
                   <div className="flex items-center space-x-4 text-sm text-gray-600 mb-3">
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      competition.category === 'technical' ? 'bg-blue-100 text-blue-800' :
+                      competition.category === 'technical' ? 'bg-primary-light text-primary-dark' :
                       competition.category === 'cultural' ? 'bg-purple-100 text-purple-800' :
                       competition.category === 'sports' ? 'bg-green-100 text-green-800' :
                       competition.category === 'academic' ? 'bg-yellow-100 text-yellow-800' :
@@ -453,7 +453,7 @@ const Competitions = () => {
                 <div className="mb-4">
                   <button
                     onClick={() => toggleParticipants(competition._id)}
-                    className="flex items-center space-x-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+                    className="flex items-center space-x-2 text-sm font-medium text-primary hover:text-primary-dark transition-colors"
                   >
                     <Eye className="h-4 w-4" />
                     <span>View Registered Students ({competition.participants.length})</span>
@@ -471,8 +471,8 @@ const Competitions = () => {
                         {competition.participants.map((participant, index) => (
                           <div key={index} className="flex items-center justify-between bg-white rounded-lg p-3 shadow-sm">
                             <div className="flex items-center space-x-3">
-                              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                                <User className="h-4 w-4 text-blue-600" />
+                              <div className="w-8 h-8 bg-primary-light rounded-full flex items-center justify-center">
+                                <User className="h-4 w-4 text-primary" />
                               </div>
                               <div>
                                 <p className="text-sm font-medium text-gray-900">
@@ -508,7 +508,7 @@ const Competitions = () => {
                       href={competition.externalLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-700 font-medium hover:underline"
+                      className="text-primary hover:text-primary-dark font-medium hover:underline"
                     >
                       Visit External Competition Platform
                     </a>
@@ -532,7 +532,7 @@ const Competitions = () => {
                   {isRegistrationOpen(competition) ? (
                     <button
                       onClick={() => handleRegister(competition._id)}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
                     >
                       Register
                     </button>

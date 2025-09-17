@@ -162,7 +162,7 @@ const Signup = () => {
           <p className="text-center text-xs text-gray-500 mt-1">
             Centurion University of Technology and Management
           </p>
-          <p className="text-center text-xs italic text-blue-600 mt-1">
+          <p className="text-center text-xs italic text-primary mt-1">
             Shaping Lives... Empowering Communities!
           </p>
         </div>
@@ -187,7 +187,7 @@ const Signup = () => {
                     />
                     <div className={`w-full p-2 text-center text-xs font-medium rounded-lg border-2 cursor-pointer transition-colors ${
                       formData.role === role
-                        ? 'border-blue-600 bg-blue-50 text-blue-600'
+                        ? 'border-primary bg-primary-light text-primary'
                         : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
                     }`}>
                       {role.charAt(0).toUpperCase() + role.slice(1)}
@@ -211,7 +211,7 @@ const Signup = () => {
                   name="name"
                   type="text"
                   required
-                  className="appearance-none relative block w-full pl-10 pr-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="appearance-none relative block w-full pl-10 pr-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                   placeholder="Enter your full name"
                   value={formData.name}
                   onChange={handleChange}
@@ -233,7 +233,7 @@ const Signup = () => {
                   name="email"
                   type="email"
                   required
-                  className="appearance-none relative block w-full pl-10 pr-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="appearance-none relative block w-full pl-10 pr-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                   placeholder={getEmailPlaceholder()}
                   value={formData.email}
                   onChange={handleChange}
@@ -256,7 +256,7 @@ const Signup = () => {
                     id="department"
                     name="department"
                     required
-                    className="appearance-none relative block w-full pl-10 pr-3 py-3 border border-gray-300 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="appearance-none relative block w-full pl-10 pr-3 py-3 border border-gray-300 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                     value={formData.department}
                     onChange={handleChange}
                   >
@@ -280,7 +280,7 @@ const Signup = () => {
                   name="rollNumber"
                   type="text"
                   required
-                  className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                   placeholder="Enter your roll number"
                   value={formData.rollNumber}
                   onChange={handleChange}
@@ -303,7 +303,7 @@ const Signup = () => {
                     name="company"
                     type="text"
                     required
-                    className="appearance-none relative block w-full pl-10 pr-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    className="appearance-none relative block w-full pl-10 pr-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                     placeholder="Enter your company name"
                     value={formData.company}
                     onChange={handleChange}
@@ -324,7 +324,7 @@ const Signup = () => {
                   id="personalEmail"
                   name="personalEmail"
                   type="email"
-                  className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                   placeholder="your.personal@email.com"
                   value={formData.personalEmail}
                   onChange={handleChange}
@@ -339,7 +339,7 @@ const Signup = () => {
                   id="phoneNumber"
                   name="phoneNumber"
                   type="tel"
-                  className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                   placeholder="+91 9876543210"
                   value={formData.phoneNumber}
                   onChange={handleChange}
@@ -354,7 +354,7 @@ const Signup = () => {
                   id="linkedinUrl"
                   name="linkedinUrl"
                   type="url"
-                  className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                   placeholder="https://linkedin.com/in/yourprofile"
                   value={formData.linkedinUrl}
                   onChange={handleChange}
@@ -369,7 +369,7 @@ const Signup = () => {
                   id="githubUrl"
                   name="githubUrl"
                   type="url"
-                  className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                   placeholder="https://github.com/yourusername"
                   value={formData.githubUrl}
                   onChange={handleChange}
@@ -384,7 +384,7 @@ const Signup = () => {
                   id="portfolioUrl"
                   name="portfolioUrl"
                   type="url"
-                  className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="mt-1 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                   placeholder="https://yourportfolio.com"
                   value={formData.portfolioUrl}
                   onChange={handleChange}
@@ -402,14 +402,14 @@ const Signup = () => {
                   type="text"
                   value={skillInput}
                   onChange={(e) => setSkillInput(e.target.value)}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
                   placeholder="Add a skill"
                   onKeyPress={(e) => e.key === 'Enter' && addSkill(e)}
                 />
                 <button
                   type="button"
                   onClick={addSkill}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                  className="px-4 py-2 bg-primary text-text-light rounded-lg hover:bg-primary-dark transition-colors text-sm"
                 >
                   Add
                 </button>

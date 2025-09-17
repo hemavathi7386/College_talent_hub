@@ -40,13 +40,13 @@ const Login = () => {
               style={{ filter: 'brightness(1.2) contrast(1.1)' }}
             />
           </div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-blue-600">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-primary">
             Welcome Back
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Sign in to College Talent Hub
           </p>
-          <p className="text-center text-xs text-blue-600 hover:text-blue-700 font-medium mt-1">
+          <p className="text-center text-xs text-primary hover:text-primary-dark font-medium mt-1">
             Centurion University of Technology and Management
           </p>
         </div>
@@ -67,7 +67,7 @@ const Login = () => {
                   type="email"
                   autoComplete="email"
                   required
-                  className="appearance-none relative block w-full pl-10 pr-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  className="appearance-none relative block w-full pl-10 pr-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
                   placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
@@ -89,7 +89,7 @@ const Login = () => {
                   type={showPassword ? 'text' : 'password'}
                   autoComplete="current-password"
                   required
-                  className="appearance-none relative block w-full pl-10 pr-10 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+                  className="appearance-none relative block w-full pl-10 pr-10 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm"
                   placeholder="Enter your password"
                   value={formData.password}
                   onChange={handleChange}
@@ -113,7 +113,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
+              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-text-light bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
             >
               {loading ? (
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
@@ -128,7 +128,7 @@ const Login = () => {
               Don't have an account?{' '}
               <Link
                 to="/signup"
-                className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
+                className="font-medium text-primary hover:text-primary-dark transition-colors"
               >
                 Sign up here
               </Link>
@@ -136,8 +136,8 @@ const Login = () => {
           </div>
         </form>
 
-        <div className="mt-8 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-          <h3 className="text-sm font-medium text-blue-600 mb-2">Email Format Guidelines:</h3>
+        <div className="mt-8 p-4 bg-primary-light border border-primary rounded-lg">
+          <h3 className="text-sm font-medium text-primary mb-2">Email Format Guidelines:</h3>
           <ul className="text-xs text-gray-600 space-y-1">
             <li>• <strong>Students:</strong> rollnumber@cutmap.ac.in</li>
             <li>• <strong>Faculty:</strong> name@cutmap.ac.in</li>

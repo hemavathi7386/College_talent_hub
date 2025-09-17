@@ -151,7 +151,7 @@ const Leaderboard = () => {
             onClick={() => setSelectedCategory('overall')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               selectedCategory === 'overall'
-                ? 'bg-blue-600 text-white'
+                ? 'bg-primary text-text-light'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
             }`}
           >
@@ -164,7 +164,7 @@ const Leaderboard = () => {
               onClick={() => setSelectedCategory(category)}
               className={`px-4 py-2 rounded-lg font-medium transition-colors capitalize ${
                 selectedCategory === category
-                  ? 'bg-blue-600 text-white'
+                  ? 'bg-primary text-text-light'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >

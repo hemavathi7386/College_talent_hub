@@ -183,18 +183,18 @@ const Profile = () => {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         {/* Header */}
-        <div className="bg-blue-600 px-6 py-8">
+        <div className="bg-gradient-hero px-6 py-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center">
-                <span className="text-3xl font-bold text-blue-600">
+                <span className="text-3xl font-bold text-primary">
                   {user?.name?.charAt(0).toUpperCase()}
                 </span>
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-white">{user?.name}</h1>
-                <p className="text-blue-100 capitalize">{user?.role}</p>
-                <div className="flex items-center space-x-4 mt-2 text-blue-100">
+                <p className="text-white/90 capitalize">{user?.role}</p>
+                <div className="flex items-center space-x-4 mt-2 text-white/80">
                   <div className="flex items-center space-x-1">
                     <Mail className="h-4 w-4" />
                     <span className="text-sm">{user?.email}</span>
@@ -216,7 +216,7 @@ const Profile = () => {
             </div>
             <button
               onClick={() => setIsEditing(!isEditing)}
-              className="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-2"
+              className="bg-white text-primary px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors flex items-center space-x-2"
             >
               <Edit2 className="h-4 w-4" />
               <span>{isEditing ? 'Cancel' : 'Edit Profile'}</span>
@@ -237,7 +237,7 @@ const Profile = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
                 {(user?.role === 'student' || user?.role === 'faculty') && (
@@ -248,7 +248,7 @@ const Profile = () => {
                       name="department"
                       value={formData.department}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
                 )}
@@ -260,7 +260,7 @@ const Profile = () => {
                       name="company"
                       value={formData.company}
                       onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
                 )}
@@ -274,7 +274,7 @@ const Profile = () => {
                     value={formData.personalEmail}
                     onChange={handleInputChange}
                     placeholder="your.personal@email.com"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
                 
@@ -286,7 +286,7 @@ const Profile = () => {
                     value={formData.phoneNumber}
                     onChange={handleInputChange}
                     placeholder="+91 9876543210"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
                 
@@ -298,7 +298,7 @@ const Profile = () => {
                     value={formData.linkedinUrl}
                     onChange={handleInputChange}
                     placeholder="https://linkedin.com/in/yourprofile"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
                 
@@ -310,7 +310,7 @@ const Profile = () => {
                     value={formData.githubUrl}
                     onChange={handleInputChange}
                     placeholder="https://github.com/yourusername"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
                 
@@ -322,7 +322,7 @@ const Profile = () => {
                     value={formData.portfolioUrl}
                     onChange={handleInputChange}
                     placeholder="https://yourportfolio.com"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                 </div>
               </div>
@@ -386,7 +386,7 @@ const Profile = () => {
                       href={user?.linkedinUrl} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="font-medium text-blue-600 hover:text-blue-700 underline"
+                      className="font-medium text-primary hover:text-primary-dark underline"
                     >
                       View Profile
                     </a>
@@ -403,7 +403,7 @@ const Profile = () => {
                       href={user?.githubUrl} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="font-medium text-blue-600 hover:text-blue-700 underline"
+                      className="font-medium text-primary hover:text-primary-dark underline"
                     >
                       View Profile
                     </a>
@@ -420,7 +420,7 @@ const Profile = () => {
                       href={user?.portfolioUrl} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="font-medium text-blue-600 hover:text-blue-700 underline"
+                      className="font-medium text-primary hover:text-primary-dark underline"
                     >
                       Visit Website
                     </a>
@@ -441,12 +441,12 @@ const Profile = () => {
                     value={newSkill}
                     onChange={(e) => setNewSkill(e.target.value)}
                     placeholder="Add a skill"
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     onKeyPress={(e) => e.key === 'Enter' && addSkill()}
                   />
                   <button
                     onClick={addSkill}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="px-4 py-2 bg-primary text-text-light rounded-lg hover:bg-primary-dark transition-colors"
                   >
                     Add
                   </button>
@@ -455,12 +455,12 @@ const Profile = () => {
                   {formData.skills.map((skill, index) => (
                     <span
                       key={index}
-                      className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
+                      className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-light text-primary-dark"
                     >
                       {skill}
                       <button
                         onClick={() => removeSkill(skill)}
-                        className="ml-2 text-blue-600 hover:text-blue-800"
+                        className="ml-2 text-primary hover:text-primary-dark"
                       >
                         <X className="h-3 w-3" />
                       </button>
@@ -474,7 +474,7 @@ const Profile = () => {
                   user.skills.map((skill, index) => (
                     <span
                       key={index}
-                      className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800"
+                      className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-light text-primary-dark"
                     >
                       {skill}
                     </span>
@@ -555,7 +555,7 @@ const Profile = () => {
               <h2 className="text-xl font-semibold text-gray-900">Experience</h2>
               <button
                 onClick={() => setShowAddExperience(true)}
-                className="flex items-center space-x-1 text-blue-600 hover:text-blue-700 transition-colors"
+                className="flex items-center space-x-1 text-primary hover:text-primary-dark transition-colors"
               >
                 <Plus className="h-4 w-4" />
                 <span>Add Experience</span>
@@ -570,28 +570,28 @@ const Profile = () => {
                     placeholder="Job Title"
                     value={newExperience.title}
                     onChange={(e) => setNewExperience({ ...newExperience, title: e.target.value })}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                   <input
                     type="text"
                     placeholder="Company"
                     value={newExperience.company}
                     onChange={(e) => setNewExperience({ ...newExperience, company: e.target.value })}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                   <input
                     type="text"
                     placeholder="Location"
                     value={newExperience.location}
                     onChange={(e) => setNewExperience({ ...newExperience, location: e.target.value })}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                   <input
                     type="date"
                     placeholder="Start Date"
                     value={newExperience.startDate}
                     onChange={(e) => setNewExperience({ ...newExperience, startDate: e.target.value })}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                   {!newExperience.current && (
                     <input
@@ -599,7 +599,7 @@ const Profile = () => {
                       placeholder="End Date"
                       value={newExperience.endDate}
                       onChange={(e) => setNewExperience({ ...newExperience, endDate: e.target.value })}
-                      className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   )}
                   <div className="flex items-center">
@@ -616,13 +616,13 @@ const Profile = () => {
                   placeholder="Job Description"
                   value={newExperience.description}
                   onChange={(e) => setNewExperience({ ...newExperience, description: e.target.value })}
-                  className="w-full mt-4 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                  className="w-full mt-4 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                   rows="3"
                 />
                 <div className="flex space-x-2 mt-4">
                   <button
                     onClick={addExperience}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    className="px-4 py-2 bg-primary text-text-light rounded-lg hover:bg-primary-dark transition-colors"
                   >
                     Add Experience
                   </button>
@@ -642,10 +642,10 @@ const Profile = () => {
                   <div key={index} className="border border-gray-200 rounded-lg p-4">
                     <div className="flex items-start justify-between">
                       <div className="flex items-start space-x-3">
-                        <Briefcase className="h-5 w-5 text-blue-600 mt-1" />
+                        <Briefcase className="h-5 w-5 text-primary mt-1" />
                         <div>
                           <h3 className="font-medium text-gray-900">{exp.title}</h3>
-                          <p className="text-blue-600">{exp.company}</p>
+                          <p className="text-primary">{exp.company}</p>
                           {exp.location && <p className="text-sm text-gray-500">{exp.location}</p>}
                           <p className="text-sm text-gray-500">
                             {formatDate(exp.startDate)} - {exp.current ? 'Present' : formatDate(exp.endDate)}
@@ -676,7 +676,7 @@ const Profile = () => {
               <h2 className="text-xl font-semibold text-gray-900">Achievements & Certifications</h2>
               <button
                 onClick={() => setShowAddAchievement(true)}
-                className="flex items-center space-x-1 text-blue-600 hover:text-blue-700 transition-colors"
+                className="flex items-center space-x-1 text-primary hover:text-primary-dark transition-colors"
               >
                 <Plus className="h-4 w-4" />
                 <span>Add Achievement</span>
@@ -691,25 +691,25 @@ const Profile = () => {
                     placeholder="Achievement title"
                     value={newAchievement.title}
                     onChange={(e) => setNewAchievement({ ...newAchievement, title: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                   <textarea
                     placeholder="Description"
                     value={newAchievement.description}
                     onChange={(e) => setNewAchievement({ ...newAchievement, description: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                     rows="3"
                   />
                   <input
                     type="date"
                     value={newAchievement.date}
                     onChange={(e) => setNewAchievement({ ...newAchievement, date: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   />
                   <div className="flex space-x-2">
                     <button
                       onClick={addAchievement}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="px-4 py-2 bg-primary text-text-light rounded-lg hover:bg-primary-dark transition-colors"
                     >
                       Add
                     </button>
@@ -757,7 +757,7 @@ const Profile = () => {
             <div className="flex space-x-4 pt-6 border-t border-gray-200">
               <button
                 onClick={handleSave}
-                className="flex items-center space-x-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                className="flex items-center space-x-2 px-6 py-2 bg-primary text-text-light rounded-lg hover:bg-primary-dark transition-colors"
               >
                 <Save className="h-4 w-4" />
                 <span>Save Changes</span>

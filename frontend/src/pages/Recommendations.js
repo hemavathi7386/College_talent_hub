@@ -61,7 +61,7 @@ const Recommendations = () => {
 
   const getReasonBadge = (reason) => {
     const badges = {
-      skills_match: { text: 'Skills Match', color: 'bg-blue-100 text-blue-800' },
+      skills_match: { text: 'Skills Match', color: 'bg-primary-light text-primary' },
       experience_match: { text: 'Experience Match', color: 'bg-green-100 text-green-800' },
       location_match: { text: 'Location Match', color: 'bg-purple-100 text-purple-800' },
       interest_match: { text: 'Interest Match', color: 'bg-pink-100 text-pink-800' },
@@ -104,7 +104,7 @@ const Recommendations = () => {
                 onClick={() => setFilter(tab.key)}
                 className={`py-2 px-1 border-b-2 font-medium text-sm ${
                   filter === tab.key
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-primary text-primary'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -122,7 +122,7 @@ const Recommendations = () => {
 
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
         </div>
       ) : recommendations.length === 0 ? (
         <div className="text-center py-12">
@@ -221,7 +221,7 @@ const Recommendations = () => {
                         </button>
                         <button
                           onClick={() => updateRecommendationStatus(rec._id, 'viewed')}
-                          className="flex items-center px-3 py-2 text-sm text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-md transition-colors"
+                          className="flex items-center px-3 py-2 text-sm text-primary hover:text-primary-dark hover:bg-primary-light rounded-md transition-colors"
                         >
                           <Eye size={16} className="mr-1" />
                           View Details
@@ -232,7 +232,7 @@ const Recommendations = () => {
                     {(rec.status === 'viewed' || rec.status === 'pending') && (
                       <button
                         onClick={() => updateRecommendationStatus(rec._id, 'applied')}
-                        className="flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors"
+                        className="flex items-center px-4 py-2 bg-primary text-text-light text-sm font-medium rounded-md hover:bg-primary-dark transition-colors"
                       >
                         <ExternalLink size={16} className="mr-1" />
                         Apply Now

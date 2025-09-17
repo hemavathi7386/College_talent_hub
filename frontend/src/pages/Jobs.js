@@ -123,7 +123,7 @@ const Jobs = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -146,7 +146,7 @@ const Jobs = () => {
         {user?.role === 'recruiter' && (
           <button
             onClick={() => setShowCreateJob(true)}
-            className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            className="flex items-center space-x-2 bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors"
           >
             <Plus className="h-4 w-4" />
             <span>Post Job</span>
@@ -163,7 +163,7 @@ const Jobs = () => {
             placeholder="Search jobs, companies, or locations..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
         <div className="flex items-center space-x-2">
@@ -171,7 +171,7 @@ const Jobs = () => {
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
           >
             <option value="all">All Types</option>
             <option value="job">Full-time Jobs</option>
@@ -196,7 +196,7 @@ const Jobs = () => {
                       required
                       value={newJob.title}
                       onChange={(e) => setNewJob({ ...newJob, title: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
                   <div>
@@ -206,7 +206,7 @@ const Jobs = () => {
                       required
                       value={newJob.company}
                       onChange={(e) => setNewJob({ ...newJob, company: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
                 </div>
@@ -217,7 +217,7 @@ const Jobs = () => {
                     required
                     value={newJob.description}
                     onChange={(e) => setNewJob({ ...newJob, description: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                     rows="4"
                   />
                 </div>
@@ -228,7 +228,7 @@ const Jobs = () => {
                     <select
                       value={newJob.type}
                       onChange={(e) => setNewJob({ ...newJob, type: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     >
                       <option value="job">Full-time Job</option>
                       <option value="internship">Internship</option>
@@ -242,7 +242,7 @@ const Jobs = () => {
                       required
                       value={newJob.location}
                       onChange={(e) => setNewJob({ ...newJob, location: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
                   <div>
@@ -252,7 +252,7 @@ const Jobs = () => {
                       required
                       value={newJob.applicationDeadline}
                       onChange={(e) => setNewJob({ ...newJob, applicationDeadline: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
                 </div>
@@ -265,13 +265,13 @@ const Jobs = () => {
                       value={skillInput}
                       onChange={(e) => setSkillInput(e.target.value)}
                       placeholder="Add a skill"
-                      className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="flex-1 px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                       onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addSkill())}
                     />
                     <button
                       type="button"
                       onClick={addSkill}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
                     >
                       Add
                     </button>
@@ -280,13 +280,13 @@ const Jobs = () => {
                     {newJob.requiredSkills.map((skill, index) => (
                       <span
                         key={index}
-                        className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                        className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary-light text-primary-dark"
                       >
                         {skill}
                         <button
                           type="button"
                           onClick={() => removeSkill(skill)}
-                          className="ml-1 text-blue-600 hover:text-blue-800"
+                          className="ml-1 text-primary hover:text-primary-dark"
                         >
                           ×
                         </button>
@@ -305,7 +305,7 @@ const Jobs = () => {
                   </button>
                   <button
                     type="submit"
-                    className="px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors flex items-center space-x-2"
+                    className="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary-dark transition-colors flex items-center space-x-2"
                   >
                     Post Job
                   </button>
@@ -332,7 +332,7 @@ const Jobs = () => {
                     <h3 className="text-xl font-semibold text-text-primary mb-2">{job.title}</h3>
                     <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                       job.type === 'job' ? 'bg-green-100 text-green-800' :
-                      job.type === 'internship' ? 'bg-blue-100 text-blue-800' :
+                      job.type === 'internship' ? 'bg-primary-light text-primary-dark' :
                       'bg-purple-100 text-purple-800'
                     }`}>
                       {job.type.charAt(0).toUpperCase() + job.type.slice(1)}
@@ -401,7 +401,7 @@ const Jobs = () => {
                       disabled={!job.isApplicationOpen}
                       className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
                         job.isApplicationOpen
-                          ? 'bg-blue-600 text-white'
+                          ? 'bg-primary text-white'
                           : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                       }`}
                     >

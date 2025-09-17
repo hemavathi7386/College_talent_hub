@@ -71,7 +71,7 @@ const Notifications = () => {
 
   const getTypeIcon = (type) => {
     switch (type) {
-      case 'post': return <MessageSquare className="h-5 w-5 text-blue-500" />;
+      case 'post': return <MessageSquare className="h-5 w-5 text-primary" />;
       case 'job': return <Briefcase className="h-5 w-5 text-green-500" />;
       case 'competition': return <Trophy className="h-5 w-5 text-yellow-500" />;
       default: return <Bell className="h-5 w-5 text-gray-500" />;
@@ -134,7 +134,7 @@ const Notifications = () => {
           {unreadCount > 0 && (
             <button
               onClick={markAllAsRead}
-              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="flex items-center space-x-2 px-4 py-2 bg-primary text-text-light rounded-lg hover:bg-primary-dark transition-colors"
             >
               <CheckCheck className="h-4 w-4" />
               <span>Mark all read</span>
@@ -154,7 +154,7 @@ const Notifications = () => {
               placeholder="Search notifications..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
@@ -164,7 +164,7 @@ const Notifications = () => {
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <option value="all">All Notifications</option>
               <option value="unread">Unread ({unreadCount})</option>
@@ -177,7 +177,7 @@ const Notifications = () => {
             <select
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
             >
               <option value="all">All Types</option>
               <option value="post">Posts</option>
@@ -205,7 +205,7 @@ const Notifications = () => {
             <div
               key={notification._id}
               className={`bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow ${
-                !notification.read ? 'border-l-4 border-l-blue-500 bg-blue-50' : ''
+                !notification.read ? 'border-l-4 border-l-primary bg-primary-light' : ''
               }`}
             >
               <div className="flex items-start justify-between">
@@ -222,7 +222,7 @@ const Notifications = () => {
                         {notification.title}
                       </h3>
                       {!notification.read && (
-                        <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                        <span className="w-2 h-2 bg-primary rounded-full"></span>
                       )}
                     </div>
                     
@@ -281,7 +281,7 @@ const Notifications = () => {
                 onClick={() => fetchNotifications(page)}
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   currentPage === page
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-primary text-text-light'
                     : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
                 }`}
               >
