@@ -64,12 +64,12 @@ const Navbar = () => {
         <div className="flex justify-between h-18">
           {/* Logo and Brand */}
           <div className="flex items-center">
-            <Link to="/dashboard" className="flex items-center space-x-3 group">
-              <div className="bg-primary p-3 rounded-xl shadow-lg">
-                <GraduationCap className="h-7 w-7 text-white" />
+            <Link to="/dashboard" className="flex items-center space-x-2 group">
+              <div className="bg-primary p-2 rounded-xl shadow-lg">
+                <GraduationCap className="h-6 w-6 text-white" />
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-lg font-semibold text-primary">
+                <h1 className="text-base sm:text-lg font-semibold text-primary whitespace-nowrap leading-none">
                   College Talent Hub
                 </h1>
               </div>

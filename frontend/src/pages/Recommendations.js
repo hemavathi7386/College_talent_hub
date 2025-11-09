@@ -8,6 +8,7 @@ const Recommendations = () => {
   const [recommendations, setRecommendations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('pending');
+  const [generating, setGenerating] = useState(false);
 
   useEffect(() => {
     loadRecommendations();
@@ -28,6 +29,35 @@ const Recommendations = () => {
       toast.error('Failed to load recommendations');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const generateRecommendations = async () => {
+    try {
+      setGenerating(true);
+      const token = localStorage.getItem('token');
+      const studentId = user?.id || user?._id;
+      if (!studentId) {
+        toast.error('User ID not available');
+        return;
+      }
+      const resp = await fetch(`/api/recommendations/generate/${studentId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.message || 'Failed to generate recommendations');
+      }
+      toast.success('Recommendations generated');
+      await loadRecommendations();
+    } catch (e) {
+      console.error('Generate recommendations error:', e);
+      toast.error(e.message || 'Failed to generate');
+    } finally {
+      setGenerating(false);
     }
   };
 
@@ -134,6 +164,15 @@ const Recommendations = () => {
               : `No ${filter} recommendations at the moment.`
             }
           </p>
+          {user?.role === 'student' && filter === 'pending' && (
+            <button
+              onClick={generateRecommendations}
+              disabled={generating}
+              className={`mt-4 px-4 py-2 rounded-md text-white ${generating ? 'bg-gray-400' : 'bg-primary hover:bg-primary-dark'}`}
+            >
+              {generating ? 'Generating...' : 'Generate Recommendations'}
+            </button>
+          )}
         </div>
       ) : (
         <div className="space-y-6">
@@ -157,7 +196,7 @@ const Recommendations = () => {
                       <MapPin size={16} className="mr-1" />
                       <span className="mr-4">{rec.job.location || 'Location'}</span>
                       <Calendar size={16} className="mr-1" />
-                      <span>Deadline: {new Date(rec.job.deadline).toLocaleDateString()}</span>
+                      <span>Deadline: {new Date(rec.job.applicationDeadline).toLocaleDateString()}</span>
                     </div>
 
                     <p className="text-gray-700 mb-4 line-clamp-3">
@@ -185,11 +224,11 @@ const Recommendations = () => {
                     )}
 
                     {/* Skills */}
-                    {rec.job.skills && rec.job.skills.length > 0 && (
+                    {rec.job.requiredSkills && rec.job.requiredSkills.length > 0 && (
                       <div className="mb-4">
                         <p className="text-sm font-medium text-gray-700 mb-2">Required Skills:</p>
                         <div className="flex flex-wrap gap-2">
-                          {rec.job.skills.map((skill, index) => (
+                          {rec.job.requiredSkills.map((skill, index) => (
                             <span
                               key={index}
                               className="px-2 py-1 bg-gray-100 text-gray-700 rounded-md text-sm"

@@ -10,15 +10,17 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
+// Allow frontend origin via env for production; default to localhost for dev
+const CLIENT_ORIGIN = process.env.FRONTEND_URL || process.env.CLIENT_ORIGIN || 'http://localhost:3000';
 const io = socketIo(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: CLIENT_ORIGIN,
     methods: ["GET", "POST"]
   }
 });
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: CLIENT_ORIGIN }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -55,6 +57,18 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Basic route
 app.get('/', (req, res) => {
   res.json({ message: 'College Talent Hub API is running!' });
+});
+
+// Health check endpoint for monitoring services
+app.get('/api/health', (req, res) => {
+  const healthCheck = {
+    status: 'OK',
+    uptime: process.uptime(),
+    timestamp: Date.now(),
+    environment: process.env.NODE_ENV || 'development',
+    database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected'
+  };
+  res.status(200).json(healthCheck);
 });
 
 // Socket.io connection handling

@@ -18,61 +18,60 @@ router.post('/generate/:studentId', auth, async (req, res) => {
       return res.status(404).json({ message: 'Student not found' });
     }
 
-    // Get all active jobs
-    const jobs = await Job.find({ 
-      deadline: { $gte: new Date() },
-      status: 'active'
-    });
+    // Get all jobs (include expired and inactive)
+    const jobs = await Job.find({});
 
-    // Create student profile text
-    const studentProfile = `${student.skills?.join(' ') || ''} ${student.experience?.join(' ') || ''} ${student.department || ''}`.trim();
+    // Create student profile text (use experiences array of objects)
+    const experienceText = Array.isArray(student.experiences)
+      ? student.experiences.map(exp => `${exp.title || ''} ${exp.company || ''} ${exp.description || ''}`).join(' ')
+      : '';
+    const studentProfile = `${(student.skills || []).join(' ')} ${experienceText} ${student.department || ''}`.trim();
     
     if (!studentProfile) {
       return res.json({ message: 'Student profile incomplete for recommendations' });
     }
 
-    const recommendations = [];
+    let upsertedCount = 0;
 
     for (const job of jobs) {
       try {
-        // Create job description text
-        const jobText = `${job.title} ${job.description} ${job.requirements?.join(' ') || ''} ${job.skills?.join(' ') || ''}`.trim();
-        
-        // Calculate similarity using HuggingFace
+        // Create job description text using correct fields
+        const reqSkills = Array.isArray(job.requiredSkills) ? job.requiredSkills.join(' ') : '';
+        const reqObj = job.requirements || {}; // { experience, education, other }
+        const reqText = [reqObj.experience, reqObj.education, reqObj.other].filter(Boolean).join(' ');
+        const jobText = `${job.title} ${job.description} ${reqText} ${reqSkills}`.trim();
+
+        // Calculate similarity (no threshold filter; include all jobs)
         const similarity = await calculateSimilarity(studentProfile, jobText);
-        
-        if (similarity > 0.6) { // Lower threshold for more recommendations
-          const reasons = [];
-          
-          // Check skill matches
-          const studentSkills = student.skills || [];
-          const jobSkills = job.skills || [];
-          const skillMatches = studentSkills.filter(skill => 
-            jobSkills.some(jobSkill => jobSkill.toLowerCase().includes(skill.toLowerCase()))
-          );
-          
-          if (skillMatches.length > 0) reasons.push('skills_match');
-          if (student.department === job.department) reasons.push('experience_match');
-          
-          const recommendation = new Recommendation({
-            student: studentId,
-            job: job._id,
+
+        const reasons = [];
+        const studentSkills = student.skills || [];
+        const jobSkills = job.requiredSkills || [];
+        const skillMatches = studentSkills.filter(skill => 
+          jobSkills.some(jobSkill => jobSkill.toLowerCase().includes(skill.toLowerCase()))
+        );
+        if (skillMatches.length > 0) reasons.push('skills_match');
+
+        const result = await Recommendation.findOneAndUpdate(
+          { student: studentId, job: job._id },
+          {
             score: similarity,
             reasons,
+            status: 'pending',
             recommendedDate: new Date()
-          });
-          
-          await recommendation.save();
-          recommendations.push(recommendation);
-        }
+          },
+          { upsert: true, new: true, setDefaultsOnInsert: true }
+        );
+
+        if (result) upsertedCount++;
       } catch (error) {
         console.error(`Error processing job ${job._id}:`, error);
       }
     }
 
     res.json({ 
-      message: `Generated ${recommendations.length} recommendations`,
-      recommendations: recommendations.length
+      message: `Upserted ${upsertedCount} recommendations`,
+      recommendations: upsertedCount
     });
   } catch (error) {
     console.error('Error generating recommendations:', error);
@@ -143,54 +142,44 @@ router.post('/generate-daily', async (req, res) => {
           createdAt: { $lt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) }
         });
         
-        // Generate new recommendations
-        const jobs = await Job.find({ 
-          deadline: { $gte: new Date() },
-          status: 'active'
-        });
+        // Generate new recommendations: include all jobs
+        const jobs = await Job.find({});
 
-        const studentProfile = `${student.skills?.join(' ') || ''} ${student.experience?.join(' ') || ''} ${student.department || ''}`.trim();
+        const experienceTextDaily = Array.isArray(student.experiences)
+          ? student.experiences.map(exp => `${exp.title || ''} ${exp.company || ''} ${exp.description || ''}`).join(' ')
+          : '';
+        const studentProfile = `${(student.skills || []).join(' ')} ${experienceTextDaily} ${student.department || ''}`.trim();
         
         if (!studentProfile) continue;
 
         for (const job of jobs.slice(0, 5)) { // Limit to 5 jobs per student per day
           try {
-            const jobText = `${job.title} ${job.description} ${job.requirements?.join(' ') || ''} ${job.skills?.join(' ') || ''}`.trim();
+            const reqSkills = Array.isArray(job.requiredSkills) ? job.requiredSkills.join(' ') : '';
+            const reqObj = job.requirements || {};
+            const reqText = [reqObj.experience, reqObj.education, reqObj.other].filter(Boolean).join(' ');
+            const jobText = `${job.title} ${job.description} ${reqText} ${reqSkills}`.trim();
             const similarity = await calculateSimilarity(studentProfile, jobText);
-            
-            if (similarity > 0.65) {
-              // Check if recommendation already exists
-              const existingRec = await Recommendation.findOne({
+
+            // Upsert daily recommendation without threshold (top 5 slice already limits volume)
+            const reasons = [];
+            const studentSkills = student.skills || [];
+            const jobSkills = job.requiredSkills || [];
+            const skillMatches = studentSkills.filter(skill => 
+              jobSkills.some(jobSkill => jobSkill.toLowerCase().includes(skill.toLowerCase()))
+            );
+            if (skillMatches.length > 0) reasons.push('skills_match');
+
+            const existingRec = await Recommendation.findOneAndUpdate(
+              {
                 student: student._id,
                 job: job._id,
-                recommendedDate: {
-                  $gte: new Date(new Date().setHours(0, 0, 0, 0))
-                }
-              });
-              
-              if (!existingRec) {
-                const reasons = [];
-                const studentSkills = student.skills || [];
-                const jobSkills = job.skills || [];
-                const skillMatches = studentSkills.filter(skill => 
-                  jobSkills.some(jobSkill => jobSkill.toLowerCase().includes(skill.toLowerCase()))
-                );
-                
-                if (skillMatches.length > 0) reasons.push('skills_match');
-                if (student.department === job.department) reasons.push('experience_match');
-                
-                const recommendation = new Recommendation({
-                  student: student._id,
-                  job: job._id,
-                  score: similarity,
-                  reasons,
-                  recommendedDate: new Date()
-                });
-                
-                await recommendation.save();
-                totalRecommendations++;
-              }
-            }
+                recommendedDate: { $gte: new Date(new Date().setHours(0, 0, 0, 0)) }
+              },
+              { score: similarity, reasons, status: 'pending', recommendedDate: new Date() },
+              { upsert: true, new: true, setDefaultsOnInsert: true }
+            );
+
+            if (existingRec) totalRecommendations++;
           } catch (error) {
             console.error(`Error processing job ${job._id} for student ${student._id}:`, error);
           }

@@ -7,12 +7,19 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "cd backend && npm run dev",
     "client": "cd frontend && npm start",
-    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+    "install-all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "generate-docs": "node scripts/generate-docs.js",
+    "deploy-check": "node deploy-check.js",
+    "build": "cd frontend && npm install && npm run build",
+    "start": "cd backend && npm start",
+    "test-backend": "cd backend && npm test",
+    "test-frontend": "cd frontend && npm test"
   },
   "keywords": ["mern", "college", "talent", "hub"],
   "author": "Centurion University",
   "license": "MIT",
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "docx": "^8.5.0"
   }
 }

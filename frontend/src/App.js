@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import { useAuth } from './contexts/AuthContext';
@@ -58,15 +58,18 @@ function HomeRoute({ children }) {
     );
   }
   
-  return children;
+  // If user is logged in, send them to dashboard instead of showing public Home page
+  return user ? <Navigate to="/dashboard" /> : children;
 }
 
 function AppContent() {
   const { user } = useAuth();
+  const location = useLocation();
 
   return (
     <div className="min-h-screen bg-gradient-light">
-      {user && <Navbar />}
+      {/* Show Navbar on authenticated pages except the public Home route */}
+      {user && location.pathname !== '/' && <Navbar />}
       <Routes>
         <Route path="/" element={
           <HomeRoute>

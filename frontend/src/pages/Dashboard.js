@@ -173,10 +173,10 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gradient-light py-8">
       {/* Hero Section */}
       <div className="bg-gradient-hero">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
           <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-text mb-4 animate-fade-in">Welcome back, <span className="text-accent-magenta">{user?.name}</span>!</h1>
-            <p className="text-xl text-text-body mb-8 max-w-2xl mx-auto">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-text mb-4 animate-fade-in">Welcome back, <span className="text-accent-magenta">{user?.name}</span>!</h1>
+            <p className="text-base sm:text-lg md:text-xl text-text-body mb-8 max-w-2xl mx-auto">
               {user?.role === 'student' && 'Discover opportunities and showcase your talents'}
               {user?.role === 'faculty' && 'Manage competitions and inspire students'}
               {user?.role === 'recruiter' && 'Find exceptional talent for your opportunities'}
@@ -306,7 +306,7 @@ const Dashboard = () => {
                       </div>
                       <p className="text-gray-700 mt-4 text-base sm:text-lg leading-relaxed">{post.description}</p>
                       
-                      <div className="flex items-center space-x-4 sm:space-x-6 md:space-x-8 mt-6 pt-6 border-t border-gray-100">
+                      <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:gap-6 lg:gap-8 mt-6 pt-6 border-t border-gray-100">
                         <div className="relative group">
                           <button
                             onClick={() => handleLikePost(post._id)}
@@ -422,10 +422,10 @@ const Dashboard = () => {
         </div>
 
         {/* Sidebar */}
-        <div className="lg:col-span-1 space-y-8">
+        <div className="lg:col-span-1 space-y-6 sm:space-y-8">
           {/* Quick Stats */}
-          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 sm:p-6">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center">
               <div className="p-2 bg-primary rounded-lg mr-3">
                 <Target className="h-6 w-6 text-white" />
               </div>
@@ -476,8 +476,8 @@ const Dashboard = () => {
 
           {/* Recent Jobs */}
           {recentJobs.length > 0 && (
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 sm:p-6">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center">
                 <div className="p-2 bg-primary rounded-lg mr-3">
                   <Briefcase className="h-6 w-6 text-white" />
                 </div>
@@ -503,8 +503,8 @@ const Dashboard = () => {
 
           {/* Recent Competitions */}
           {recentCompetitions.length > 0 && (
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-8">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 sm:p-6">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center">
                 <div className="p-2 bg-secondary rounded-lg mr-3">
                   <Trophy className="h-6 w-6 text-white" />
                 </div>

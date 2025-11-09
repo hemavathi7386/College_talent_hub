@@ -114,14 +114,15 @@ router.get('/', auth, async (req, res) => {
       .skip(skip)
       .limit(limit);
 
-    // For students, calculate skill match and filter eligible jobs
-    if (req.user.role === 'student') {
+    // For non-recruiters (students/faculty), calculate skill match and sort, but do NOT filter out jobs
+    if (req.user.role !== 'recruiter') {
+      const userSkills = Array.isArray(req.user.skills) ? req.user.skills : [];
       jobs = jobs.map(job => ({
         ...job.toObject(),
-        skillMatch: job.calculateSkillMatch(req.user.skills),
-        isEligible: job.calculateSkillMatch(req.user.skills) > 30 // 30% minimum match
-      })).filter(job => job.isEligible)
-      .sort((a, b) => b.skillMatch - a.skillMatch);
+        skillMatch: job.calculateSkillMatch(userSkills)
+      }))
+      // Sort with higher skill matches first; jobs without match will naturally go to bottom
+      .sort((a, b) => (b.skillMatch || 0) - (a.skillMatch || 0));
     }
 
     const total = await Job.countDocuments(query);

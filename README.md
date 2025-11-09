@@ -249,6 +249,29 @@ college_talent_hub/
 4. Test thoroughly
 5. Submit a pull request
 
+## Deployment
+
+### 🚀 Ready to Deploy?
+
+This project is deployment-ready! Choose your preferred deployment guide:
+
+- **[QUICK_DEPLOY.md](./QUICK_DEPLOY.md)** - Deploy in 30 minutes (Render - Free)
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Comprehensive guide (all platforms)
+- **[DEPLOYMENT_CHECKLIST.md](./DEPLOYMENT_CHECKLIST.md)** - Step-by-step checklist
+- **[DEPLOYMENT_SUMMARY.md](./DEPLOYMENT_SUMMARY.md)** - Overview and recommendations
+
+### Quick Check
+```bash
+node deploy-check.js
+```
+
+### Recommended Platforms
+- **Beginner:** Render (free tier) - See QUICK_DEPLOY.md
+- **Production:** Vercel (frontend) + Render (backend)
+- **Enterprise:** AWS or VPS
+
+All deployment configurations are included in this repository.
+
 ## License
 
 This project is licensed under the MIT License.
