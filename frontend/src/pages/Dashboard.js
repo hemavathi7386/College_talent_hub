@@ -375,7 +375,7 @@ const Dashboard = () => {
                                         {new Date(comment.createdAt).toLocaleDateString()}
                                       </span>
                                     </div>
-                                    <p className="text-text-body text-lg mb-6">New opportunities waiting</p>
+                                    <p className="text-gray-700 text-sm">{comment.text}</p>
                                   </div>
                                 </div>
                               </div>
