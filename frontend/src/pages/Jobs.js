@@ -12,7 +12,9 @@ import {
   Search,
   Clock,
   Building,
-  Star
+  Star,
+  Edit,
+  Trash2
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -23,6 +25,7 @@ const Jobs = () => {
   const [showCreateJob, setShowCreateJob] = useState(false);
   const [filter, setFilter] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [editingJob, setEditingJob] = useState(null);
   const [newJob, setNewJob] = useState({
     title: '',
     description: '',
@@ -86,6 +89,60 @@ const Jobs = () => {
       fetchJobs(); // Refresh to update application status
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to apply for job');
+    }
+  };
+
+  const handleEditJob = (job) => {
+    setEditingJob(job);
+    setNewJob({
+      title: job.title,
+      description: job.description,
+      company: job.company,
+      type: job.type,
+      requiredSkills: job.requiredSkills,
+      location: job.location,
+      salary: job.salary || { min: '', max: '', currency: 'INR' },
+      duration: job.duration || '',
+      applicationDeadline: job.applicationDeadline ? new Date(job.applicationDeadline).toISOString().slice(0, 16) : '',
+      requirements: job.requirements || { experience: '', education: '', other: '' }
+    });
+    setShowCreateJob(true);
+  };
+
+  const handleUpdateJob = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`/api/jobs/${editingJob._id}`, newJob);
+      setJobs(jobs.map(job => job._id === editingJob._id ? response.data : job));
+      setNewJob({
+        title: '',
+        description: '',
+        company: user?.company || '',
+        type: 'job',
+        requiredSkills: [],
+        location: '',
+        salary: { min: '', max: '', currency: 'INR' },
+        duration: '',
+        applicationDeadline: '',
+        requirements: { experience: '', education: '', other: '' }
+      });
+      setEditingJob(null);
+      setShowCreateJob(false);
+      toast.success('Job updated successfully!');
+    } catch (error) {
+      toast.error('Failed to update job');
+    }
+  };
+
+  const handleDeleteJob = async (jobId) => {
+    if (!window.confirm('Are you sure you want to delete this job posting?')) return;
+    
+    try {
+      await axios.delete(`/api/jobs/${jobId}`);
+      setJobs(jobs.filter(job => job._id !== jobId));
+      toast.success('Job deleted successfully!');
+    } catch (error) {
+      toast.error('Failed to delete job');
     }
   };
 
@@ -186,8 +243,8 @@ const Jobs = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Post New Job</h2>
-              <form onSubmit={handleCreateJob} className="space-y-4">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">{editingJob ? 'Edit Job' : 'Post New Job'}</h2>
+              <form onSubmit={editingJob ? handleUpdateJob : handleCreateJob} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Job Title</label>
@@ -298,7 +355,22 @@ const Jobs = () => {
                 <div className="flex justify-end space-x-4">
                   <button
                     type="button"
-                    onClick={() => setShowCreateJob(false)}
+                    onClick={() => {
+                      setShowCreateJob(false);
+                      setEditingJob(null);
+                      setNewJob({
+                        title: '',
+                        description: '',
+                        company: user?.company || '',
+                        type: 'job',
+                        requiredSkills: [],
+                        location: '',
+                        salary: { min: '', max: '', currency: 'INR' },
+                        duration: '',
+                        applicationDeadline: '',
+                        requirements: { experience: '', education: '', other: '' }
+                      });
+                    }}
                     className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
                   >
                     Cancel
@@ -307,7 +379,7 @@ const Jobs = () => {
                     type="submit"
                     className="px-6 py-3 bg-primary text-white rounded-xl hover:bg-primary-dark transition-colors flex items-center space-x-2"
                   >
-                    Post Job
+                    {editingJob ? 'Update Job' : 'Post Job'}
                   </button>
                 </div>
               </form>
@@ -407,6 +479,25 @@ const Jobs = () => {
                     >
                       {job.isApplicationOpen ? 'Apply Now' : 'Deadline Passed'}
                     </button>
+                  )}
+
+                  {user?.role === 'recruiter' && (
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => handleEditJob(job)}
+                        className="px-4 py-2 rounded-xl text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 transition-colors flex items-center space-x-1"
+                      >
+                        <Edit className="h-4 w-4" />
+                        <span>Edit</span>
+                      </button>
+                      <button
+                        onClick={() => handleDeleteJob(job._id)}
+                        className="px-4 py-2 rounded-xl text-sm font-medium bg-red-600 text-white hover:bg-red-700 transition-colors flex items-center space-x-1"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        <span>Delete</span>
+                      </button>
+                    </div>
                   )}
 
                   <div className="flex items-center text-xs text-gray-500">

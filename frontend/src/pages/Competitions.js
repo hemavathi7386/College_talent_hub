@@ -17,7 +17,9 @@ import {
   UserMinus,
   Eye,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Edit,
+  Trash2
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -40,6 +42,7 @@ const Competitions = () => {
     externalLink: ''
   });
   const [expandedCompetitions, setExpandedCompetitions] = useState({});
+  const [editingCompetition, setEditingCompetition] = useState(null);
 
   const fetchCompetitions = async () => {
     try {
@@ -92,6 +95,58 @@ const Competitions = () => {
       fetchCompetitions(); // Refresh to update registration status
     } catch (error) {
       toast.error(error.response?.data?.message || 'Failed to register');
+    }
+  };
+
+  const handleEditCompetition = (competition) => {
+    setEditingCompetition(competition);
+    setNewCompetition({
+      title: competition.title,
+      description: competition.description,
+      date: competition.date ? new Date(competition.date).toISOString().slice(0, 16) : '',
+      registrationDeadline: competition.registrationDeadline ? new Date(competition.registrationDeadline).toISOString().slice(0, 16) : '',
+      maxParticipants: competition.maxParticipants,
+      category: competition.category,
+      prizes: competition.prizes || [{ position: '1st', prize: '' }],
+      rules: competition.rules || '',
+      externalLink: competition.externalLink || ''
+    });
+    setShowCreateCompetition(true);
+  };
+
+  const handleUpdateCompetition = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`/api/competitions/${editingCompetition._id}`, newCompetition);
+      setCompetitions(competitions.map(comp => comp._id === editingCompetition._id ? response.data : comp));
+      setNewCompetition({
+        title: '',
+        description: '',
+        date: '',
+        registrationDeadline: '',
+        maxParticipants: 100,
+        category: 'technical',
+        prizes: [{ position: '1st', prize: '' }],
+        rules: '',
+        externalLink: ''
+      });
+      setEditingCompetition(null);
+      setShowCreateCompetition(false);
+      toast.success('Competition updated successfully!');
+    } catch (error) {
+      toast.error('Failed to update competition');
+    }
+  };
+
+  const handleDeleteCompetition = async (competitionId) => {
+    if (!window.confirm('Are you sure you want to delete this competition?')) return;
+    
+    try {
+      await axios.delete(`/api/competitions/${competitionId}`);
+      setCompetitions(competitions.filter(comp => comp._id !== competitionId));
+      toast.success('Competition deleted successfully!');
+    } catch (error) {
+      toast.error('Failed to delete competition');
     }
   };
 
@@ -218,8 +273,8 @@ const Competitions = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Create New Competition</h2>
-              <form onSubmit={handleCreateCompetition} className="space-y-4">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">{editingCompetition ? 'Edit Competition' : 'Create New Competition'}</h2>
+              <form onSubmit={editingCompetition ? handleUpdateCompetition : handleCreateCompetition} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
                   <input
@@ -355,7 +410,21 @@ const Competitions = () => {
                 <div className="flex justify-end space-x-4">
                   <button
                     type="button"
-                    onClick={() => setShowCreateCompetition(false)}
+                    onClick={() => {
+                      setShowCreateCompetition(false);
+                      setEditingCompetition(null);
+                      setNewCompetition({
+                        title: '',
+                        description: '',
+                        date: '',
+                        registrationDeadline: '',
+                        maxParticipants: 100,
+                        category: 'technical',
+                        prizes: [{ position: '1st', prize: '' }],
+                        rules: '',
+                        externalLink: ''
+                      });
+                    }}
                     className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
                   >
                     Cancel
@@ -364,7 +433,7 @@ const Competitions = () => {
                     type="submit"
                     className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
                   >
-                    Create Competition
+                    {editingCompetition ? 'Update Competition' : 'Create Competition'}
                   </button>
                 </div>
               </form>
@@ -544,6 +613,25 @@ const Competitions = () => {
                       Registration Closed
                     </button>
                   )}
+                </div>
+              )}
+
+              {user?.role === 'faculty' && (
+                <div className="flex justify-end space-x-3 mt-4">
+                  <button
+                    onClick={() => handleEditCompetition(competition)}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+                  >
+                    <Edit className="h-4 w-4" />
+                    <span>Edit</span>
+                  </button>
+                  <button
+                    onClick={() => handleDeleteCompetition(competition._id)}
+                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2"
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    <span>Delete</span>
+                  </button>
                 </div>
               )}
             </div>
