@@ -8,13 +8,11 @@ import {
   Mail,
   Award,
   BookOpen,
-  User,
   Phone,
   Linkedin,
   Github,
   Globe,
-  Star,
-  Eye
+  Star
 } from 'lucide-react';
 
 const Students = () => {
@@ -287,11 +285,11 @@ const Students = () => {
                 </div>
               )}
 
-              {/* Contact Buttons */}
-              <div className="pt-4 border-t border-gray-100 space-y-2">
+              {/* Contact Buttons - Always visible */}
+              <div className="mt-4 pt-4 border-t border-gray-200 space-y-2">
                 <a
                   href={`mailto:${student.personalEmail || student.email}`}
-                  className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-centurion-600 text-white rounded-lg hover:bg-centurion-700 transition-colors text-sm"
+                  className="w-full inline-flex items-center justify-center space-x-2 px-4 py-2 bg-centurion-600 text-white rounded-lg hover:bg-centurion-700 transition-colors text-sm font-medium"
                 >
                   <Mail className="h-4 w-4" />
                   <span>Send Email</span>
@@ -299,7 +297,7 @@ const Students = () => {
                 {student.phoneNumber && (
                   <a
                     href={`tel:${student.phoneNumber}`}
-                    className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
+                    className="w-full inline-flex items-center justify-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
                   >
                     <Phone className="h-4 w-4" />
                     <span>Call Now</span>
