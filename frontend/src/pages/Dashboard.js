@@ -11,13 +11,8 @@ import {
   Trophy,
   TrendingUp,
   Calendar,
-  Award,
-  Bell,
   Trash2,
-  Sparkles,
   Target,
-  Zap,
-  Star,
   ArrowRight,
   Plus
 } from 'lucide-react';
@@ -170,13 +165,13 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-light py-8">
+    <div className="min-h-screen bg-background py-8">
       {/* Hero Section */}
-      <div className="bg-gradient-hero">
+      <div className="bg-gradient-hero border-b border-border">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
           <div className="text-center">
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-text mb-4 animate-fade-in">Welcome back, <span className="text-accent-magenta">{user?.name}</span>!</h1>
-            <p className="text-base sm:text-lg md:text-xl text-text-body mb-8 max-w-2xl mx-auto">
+            <h1 className="text-3xl sm:text-5xl md:text-5xl font-bold text-text mb-4">Welcome back, <span className="text-primary">{user?.name}</span></h1>
+            <p className="text-base sm:text-lg text-text-body mb-8 max-w-2xl mx-auto">
               {user?.role === 'student' && 'Discover opportunities and showcase your talents'}
               {user?.role === 'faculty' && 'Manage competitions and inspire students'}
               {user?.role === 'recruiter' && 'Find exceptional talent for your opportunities'}
@@ -192,35 +187,35 @@ const Dashboard = () => {
         <div className="lg:col-span-2 space-y-6">
           {/* Create Post Section */}
           {!showCreatePost ? (
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 sm:p-6">
+            <div className="bg-white rounded-lg shadow-sm border border-border p-4 sm:p-6">
               <button
                 onClick={() => setShowCreatePost(true)}
-                className="w-full text-left p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors flex items-center space-x-4"
+                className="w-full text-left p-4 bg-background rounded-lg hover:bg-primary/5 transition-colors flex items-center space-x-4 border border-border"
               >
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                  <span className="text-white text-sm font-semibold">
+                <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                  <span className="text-white font-semibold">
                     {user?.name?.charAt(0) || 'U'}
                   </span>
                 </div>
                 <div className="flex-1">
-                  <span className="text-text-muted text-lg">Share your achievements, projects, or thoughts...</span>
+                  <span className="text-text-muted">Share your achievements, projects, or thoughts...</span>
                 </div>
-                <Plus className="h-6 w-6 text-primary" />
+                <Plus className="h-5 w-5 text-primary" />
               </button>
             </div>
           ) : (
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 sm:p-6 md:p-8">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 md:p-8">
               <form onSubmit={handleCreatePost}>
                 <div className="relative">
                   <textarea
                     value={newPost}
                     onChange={(e) => setNewPost(e.target.value)}
                     placeholder="What's on your mind?"
-                    className="w-full p-3 sm:p-4 border-2 border-background-light rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary resize-none text-base sm:text-lg"
+                    className="w-full p-3 sm:p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary resize-none"
                     rows="4"
                     autoFocus
                   />
-                  <div className="absolute bottom-2 right-2 text-xs sm:text-sm text-text-muted">
+                  <div className="absolute bottom-2 right-2 text-xs sm:text-sm text-gray-400">
                     {newPost.length}/500
                   </div>
                 </div>
@@ -231,17 +226,16 @@ const Dashboard = () => {
                       setShowCreatePost(false);
                       setNewPost('');
                     }}
-                    className="px-4 py-2 sm:px-6 sm:py-3 text-text-body hover:text-text transition-all duration-300 rounded-lg hover:bg-background-light"
+                    className="px-4 py-2 sm:px-6 sm:py-3 text-gray-600 hover:text-gray-900 transition-colors rounded-lg hover:bg-gray-50"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     disabled={!newPost.trim()}
-                    className="w-full sm:w-auto px-6 py-3 bg-primary text-text-light rounded-lg hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center space-x-2"
+                    className="w-full sm:w-auto px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
                   >
-                    <Zap className="h-5 w-5" />
-                    <span>Share Post</span>
+                    Share Post
                   </button>
                 </div>
               </form>
@@ -249,39 +243,33 @@ const Dashboard = () => {
           )}
 
           {/* Posts Feed */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center">
-                <div className="p-2 bg-blue-600 rounded-lg mr-3">
-                  <TrendingUp className="h-6 w-6 text-white" />
-                </div>
+                <TrendingUp className="h-6 w-6 text-primary mr-2" />
                 Recent Posts
               </h2>
-              <div className="flex items-center space-x-2 text-sm text-gray-500">
-                <Star className="h-4 w-4 text-yellow-500" />
-                <span>Latest updates from your network</span>
-              </div>
             </div>
             
             {posts.length === 0 ? (
-              <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6 sm:p-10 md:p-12 text-center">
-                <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <MessageCircle className="h-12 w-12 text-primary" />
+              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sm:p-10 md:p-12 text-center">
+                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <MessageCircle className="h-10 w-10 text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Available Jobs</h3>
-                <p className="text-gray-600 mb-6">Be the first to share something amazing with the community!</p>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">No Posts Yet</h3>
+                <p className="text-gray-600 mb-6">Be the first to share something with the community!</p>
                 <button
                   onClick={() => setShowCreatePost(true)}
-                  className="px-6 py-3 bg-primary text-text-light rounded-lg hover:bg-primary-dark transition-colors"
+                  className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-medium"
                 >
                   Create First Post
                 </button>
               </div>
             ) : (
               posts.map((post) => (
-                <div key={post._id} className="bg-white rounded-lg shadow-md border border-gray-200 p-4 sm:p-6 md:p-8">
+                <div key={post._id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 md:p-8">
                   <div className="flex items-start space-x-4">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-primary rounded-full flex items-center justify-center shadow-md">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary rounded-full flex items-center justify-center">
                       <span className="text-white font-bold text-lg">
                         {post.user?.name?.charAt(0).toUpperCase()}
                       </span>
@@ -404,7 +392,7 @@ const Dashboard = () => {
                                 />
                                 <button
                                   onClick={() => handleAddComment(post._id)}
-                                  className="inline-flex items-center px-6 py-3 bg-white/20 backdrop-blur-sm text-white rounded-xl hover:bg-white/30 transition-all duration-300 shadow-lg"
+                                  className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-medium"
                                 >
                                   Post
                                 </button>
@@ -424,22 +412,18 @@ const Dashboard = () => {
         {/* Sidebar */}
         <div className="lg:col-span-1 space-y-6 sm:space-y-8">
           {/* Quick Stats */}
-          <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 sm:p-6">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
             <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center">
-              <div className="p-2 bg-primary rounded-lg mr-3">
-                <Target className="h-6 w-6 text-white" />
-              </div>
+              <Target className="h-6 w-6 text-primary mr-2" />
               Quick Overview
             </h3>
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div 
                 onClick={() => navigate('/jobs')}
-                className="bg-primary-light rounded-lg p-4 hover:bg-primary-light/80 transition-colors cursor-pointer">
+                className="bg-cyan-50 rounded-lg p-4 hover:bg-cyan-100 transition-colors cursor-pointer">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-primary rounded-lg">
-                      <Briefcase className="h-5 w-5 text-white" />
-                    </div>
+                    <Briefcase className="h-5 w-5 text-primary" />
                     <span className="font-medium text-gray-700">Available Jobs</span>
                   </div>
                   <span className="text-2xl font-bold text-primary">{recentJobs.length}</span>
@@ -447,28 +431,24 @@ const Dashboard = () => {
               </div>
               <div 
                 onClick={() => navigate('/competitions')}
-                className="bg-secondary/10 rounded-lg p-4 hover:bg-secondary/20 transition-colors cursor-pointer">
+                className="bg-amber-50 rounded-lg p-4 hover:bg-amber-100 transition-colors cursor-pointer">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-secondary rounded-lg">
-                      <Trophy className="h-5 w-5 text-white" />
-                    </div>
+                    <Trophy className="h-5 w-5 text-amber-500" />
                     <span className="font-medium text-gray-700">Active Competitions</span>
                   </div>
-                  <span className="text-2xl font-bold text-secondary">{recentCompetitions.length}</span>
+                  <span className="text-2xl font-bold text-amber-500">{recentCompetitions.length}</span>
                 </div>
               </div>
               <div 
                 onClick={() => navigate('/profile')}
-                className="bg-purple-50 rounded-lg p-4 hover:bg-purple-100 transition-colors cursor-pointer">
+                className="bg-slate-50 rounded-lg p-4 hover:bg-slate-100 transition-colors cursor-pointer">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="p-2 bg-purple-500 rounded-lg">
-                      <Users className="h-5 w-5 text-white" />
-                    </div>
+                    <Users className="h-5 w-5 text-slate-600" />
                     <span className="font-medium text-gray-700">Your Skills</span>
                   </div>
-                  <span className="text-2xl font-bold text-purple-600">{user?.skills?.length || 0}</span>
+                  <span className="text-2xl font-bold text-slate-600">{user?.skills?.length || 0}</span>
                 </div>
               </div>
             </div>
@@ -476,11 +456,9 @@ const Dashboard = () => {
 
           {/* Recent Jobs */}
           {recentJobs.length > 0 && (
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 sm:p-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center">
-                <div className="p-2 bg-primary rounded-lg mr-3">
-                  <Briefcase className="h-6 w-6 text-white" />
-                </div>
+                <Briefcase className="h-6 w-6 text-primary mr-2" />
                 Recent Opportunities
               </h3>
               <div className="space-y-4">
@@ -488,11 +466,11 @@ const Dashboard = () => {
                   <div 
                     key={job._id} 
                     onClick={() => navigate('/jobs')}
-                    className="bg-primary-light rounded-lg p-4 border-l-4 border-primary hover:bg-primary-light/80 transition-colors cursor-pointer">
-                    <h4 className="font-bold text-gray-900 text-lg mb-2">{job.title}</h4>
+                    className="bg-cyan-50 rounded-lg p-4 border-l-4 border-primary hover:bg-cyan-100 transition-colors cursor-pointer">
+                    <h4 className="font-bold text-gray-900 mb-2">{job.title}</h4>
                     <p className="text-primary font-medium mb-1">{job.company}</p>
                     <div className="flex items-center space-x-2">
-                      <span className="px-3 py-1 bg-primary-light text-primary text-sm font-medium rounded-full capitalize">{job.type}</span>
+                      <span className="px-3 py-1 bg-white text-primary text-sm font-medium rounded-full capitalize">{job.type}</span>
                       <ArrowRight className="h-4 w-4 text-primary" />
                     </div>
                   </div>
@@ -503,11 +481,9 @@ const Dashboard = () => {
 
           {/* Recent Competitions */}
           {recentCompetitions.length > 0 && (
-            <div className="bg-white rounded-lg shadow-md border border-gray-200 p-4 sm:p-6">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6 flex items-center">
-                <div className="p-2 bg-secondary rounded-lg mr-3">
-                  <Trophy className="h-6 w-6 text-white" />
-                </div>
+                <Trophy className="h-6 w-6 text-amber-500 mr-2" />
                 Upcoming Competitions
               </h3>
               <div className="space-y-4">
@@ -515,15 +491,15 @@ const Dashboard = () => {
                   <div 
                     key={competition._id} 
                     onClick={() => navigate('/competitions')}
-                    className="bg-primary-light rounded-lg p-4 border-l-4 border-secondary hover:bg-secondary/10 transition-colors cursor-pointer">
-                    <h4 className="font-bold text-gray-900 text-lg mb-2">{competition.title}</h4>
+                    className="bg-amber-50 rounded-lg p-4 border-l-4 border-amber-500 hover:bg-amber-100 transition-colors cursor-pointer">
+                    <h4 className="font-bold text-gray-900 mb-2">{competition.title}</h4>
                     <div className="flex items-center space-x-2 mb-2">
-                      <Calendar className="h-4 w-4 text-yellow-600" />
-                      <p className="text-secondary font-medium">{formatDate(competition.date)}</p>
+                      <Calendar className="h-4 w-4 text-amber-500" />
+                      <p className="text-amber-600 font-medium">{formatDate(competition.date)}</p>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <span className="px-3 py-1 bg-secondary/10 text-secondary text-sm font-medium rounded-full capitalize">{competition.category}</span>
-                      <ArrowRight className="h-4 w-4 text-secondary" />
+                      <span className="px-3 py-1 bg-white text-amber-600 text-sm font-medium rounded-full capitalize">{competition.category}</span>
+                      <ArrowRight className="h-4 w-4 text-amber-500" />
                     </div>
                   </div>
                 ))}

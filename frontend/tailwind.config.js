@@ -5,53 +5,60 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'Poppins', 'Work Sans', 'DM Sans', 'sans-serif'],
+      },
       colors: {
-        // Primary colors with light purple theme
+        // Organic green theme - warm, clean, and natural
         primary: {
-          light: "#F4E6FF", // very pale lavender
-          DEFAULT: "#C084FC", // light purple (updated from dark purple)
-          dark: "#A855F7", // slightly darker purple for contrast
+          light: "#E8F0D7", // pale green
+          DEFAULT: "#88B04B", // organic green
+          dark: "#7CA346", // hover green
         },
         // Secondary colors
         secondary: {
-          DEFAULT: "#8B5CF6", // purple
-          light: "#A78BFA", // lighter purple for hover states
+          DEFAULT: "#6E8B3D", // deep natural green
+          light: "#8FA653", // lighter secondary
         },
         // Accent colors
         accent: {
-          DEFAULT: "#C084FC", // light purple accent
-          pink: "#E6A8FF", // lavender pink
-          magenta: "#D946EF", // bright pink accent
-          lilac: "#D8B4FE", // soft lilac
+          DEFAULT: "#88B04B", // organic green accent
+          green: "#10B981", // success green
+          orange: "#F59E0B", // warning orange
+          red: "#EF4444", // error red
         },
         // Background colors
         background: {
-          DEFAULT: "#FFFFFF", // white
-          light: "#F3F4F6", // light gray
-          section: "#F8F5FF", // alternate section
-          lavender: "#F4E6FF", // light lavender
+          DEFAULT: "#FAFAF8", // creamy background
+          light: "#FFFFFF", // white section background
+          section: "#F5F5F2", // alternate section
+          dark: "#0F172A", // dark background
         },
         // Text colors
         text: {
-          DEFAULT: "#1E1E1E", // dark charcoal for headings
-          body: "#374151", // darker gray for better contrast
-          muted: "#6B7280", // improved muted gray for secondary text
-          light: "#FFFFFF", // white text on colored backgrounds
-          primary: "#1F2937", // very dark gray for primary text
+          DEFAULT: "#2E2E2E", // dark charcoal text
+          body: "#4A4A4A", // body text
+          muted: "#6D6D6D", // muted gray
+          light: "#FFFFFF", // white text
         },
-        // Brand colors (legacy support)
+        // Border colors
+        border: {
+          DEFAULT: "#E5E5E1", // subtle border
+          light: "#F0F0ED",
+        },
+        // Brand colors
         brand: {
-          light: "#F4E6FF", // very pale lavender
-          DEFAULT: "#CDB4DB", // soft pastel purple
-          medium: "#A78BFA", // light violet (for hover/accents)
+          light: "#E8F0D7",
+          DEFAULT: "#88B04B",
+          dark: "#7CA346",
         },
       },
       backgroundImage: {
-        "gradient-light": "linear-gradient(180deg, #FFFFFF 0%, #F8F5FF 100%)",
-        "gradient-hero": "linear-gradient(180deg, #EBDCFB 0%, #F4E6FF 100%)",
-        "gradient-button": "linear-gradient(90deg, #C084FC 0%, #A855F7 100%)",
-        "gradient-card": "linear-gradient(135deg, #F4E6FF 0%, #FFFFFF 100%)",
-        "gradient-purple": "linear-gradient(135deg, #C084FC 0%, #8B5CF6 100%)",
+        "gradient-light": "linear-gradient(180deg, #F5F7FA 0%, #FAFBFC 100%)",
+        "gradient-hero": "linear-gradient(135deg, #E8EEF4 0%, #D6DFE8 100%)",
+        "gradient-button": "linear-gradient(90deg, #6C8AA8 0%, #4F6D88 100%)",
+        "gradient-card": "linear-gradient(135deg, #FFFFFF 0%, #F5F7FA 100%)",
+        "gradient-dark": "linear-gradient(135deg, #4F6D88 0%, #3A5266 100%)",
       },
     },
   },
