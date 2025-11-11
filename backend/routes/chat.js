@@ -173,4 +173,25 @@ router.delete('/message/:messageId', auth, async (req, res) => {
   }
 });
 
+// Clear entire conversation
+router.delete('/conversation/:userId', auth, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const currentUserId = req.user.id;
+    
+    const conversationId = [currentUserId, userId].sort().join('_');
+    
+    // Delete all messages in this conversation
+    const result = await Message.deleteMany({ conversationId });
+    
+    res.json({ 
+      message: 'Conversation cleared successfully',
+      deletedCount: result.deletedCount
+    });
+  } catch (error) {
+    console.error('Error clearing conversation:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 module.exports = router;

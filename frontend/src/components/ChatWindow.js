@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Phone, Video, MoreVertical, Paperclip, Trash2 } from 'lucide-react';
+import { Send, Phone, Video, MoreVertical, Paperclip, Trash2, MessageSquareOff } from 'lucide-react';
 import io from 'socket.io-client';
 import axios from 'axios';
 
@@ -8,6 +8,7 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [socket, setSocket] = useState(null);
+  const [showMenu, setShowMenu] = useState(false);
   const messagesEndRef = useRef(null);
   const typingTimeoutRef = useRef(null);
 
@@ -41,6 +42,11 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
     // Listen for message deletions
     newSocket.on('message_deleted', (data) => {
       setMessages(prev => prev.filter(msg => msg._id !== data.messageId));
+    });
+
+    // Listen for conversation being cleared
+    newSocket.on('conversation_cleared', (data) => {
+      setMessages([]);
     });
 
     // Load conversation history
@@ -144,6 +150,43 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
     }
   };
 
+  const handleClearChat = async () => {
+    if (!window.confirm('Are you sure you want to clear this entire conversation? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`/api/chat/conversation/${selectedUser._id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (response.ok) {
+        // Clear messages from local state
+        setMessages([]);
+        setShowMenu(false);
+        
+        // Emit socket event to notify other user
+        if (socket) {
+          const conversationId = [currentUser.id, selectedUser._id].sort().join('_');
+          socket.emit('conversation_cleared', {
+            conversationId,
+            clearedBy: currentUser.id
+          });
+        }
+      } else {
+        console.error('Failed to clear conversation');
+        alert('Failed to clear conversation. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error clearing conversation:', error);
+      alert('Error clearing conversation. Please try again.');
+    }
+  };
+
   const formatTime = (timestamp) => {
     return new Date(timestamp).toLocaleTimeString([], { 
       hour: '2-digit', 
@@ -171,9 +214,25 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
           <button className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100">
             <Video size={20} />
           </button>
-          <button className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100">
-            <MoreVertical size={20} />
-          </button>
+          <div className="relative">
+            <button 
+              onClick={() => setShowMenu(!showMenu)}
+              className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100"
+            >
+              <MoreVertical size={20} />
+            </button>
+            {showMenu && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                <button
+                  onClick={handleClearChat}
+                  className="w-full flex items-center space-x-2 px-4 py-3 text-left text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                >
+                  <MessageSquareOff size={18} />
+                  <span>Clear Chat</span>
+                </button>
+              </div>
+            )}
+          </div>
           <button 
             onClick={onClose}
             className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100"

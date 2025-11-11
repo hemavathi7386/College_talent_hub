@@ -149,6 +149,13 @@ io.on('connection', (socket) => {
     io.to(data.conversationId.split('_')[1]).emit('message_deleted', data);
   });
 
+  // Handle conversation clearing
+  socket.on('conversation_cleared', (data) => {
+    // Notify all users in the conversation that it was cleared
+    io.to(data.conversationId.split('_')[0]).emit('conversation_cleared', data);
+    io.to(data.conversationId.split('_')[1]).emit('conversation_cleared', data);
+  });
+
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
   });
