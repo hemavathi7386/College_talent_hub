@@ -22,7 +22,7 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
     setSocket(newSocket);
 
     // Join user's room
-    newSocket.emit('join', currentUser.id);
+    newSocket.emit('join', currentUser._id);
 
     // Listen for incoming messages
     newSocket.on('receive_message', (message) => {
@@ -30,6 +30,7 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
     });
 
     newSocket.on('message_sent', (message) => {
+      console.log('Message sent event received:', message);
       setMessages(prev => [...prev, message]);
     });
 
@@ -55,7 +56,7 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
     return () => {
       newSocket.disconnect();
     };
-  }, [currentUser.id, selectedUser._id]);
+  }, [currentUser._id, selectedUser._id]);
 
   useEffect(() => {
     scrollToBottom();
@@ -63,14 +64,10 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
 
   const loadConversationHistory = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`/api/chat/conversation/${selectedUser._id}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = await response.json();
-      setMessages(data);
+      console.log('Loading conversation history for:', selectedUser._id);
+      const response = await axios.get(`/api/chat/conversation/${selectedUser._id}`);
+      console.log('Conversation history loaded:', response.data);
+      setMessages(response.data);
     } catch (error) {
       console.error('Error loading conversation:', error);
     }
@@ -82,15 +79,19 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    if (!newMessage.trim() || !socket) return;
+    if (!newMessage.trim() || !socket) {
+      console.log('Cannot send message:', { hasMessage: !!newMessage.trim(), hasSocket: !!socket });
+      return;
+    }
 
     const messageData = {
-      senderId: currentUser.id,
+      senderId: currentUser._id,
       receiverId: selectedUser._id,
       content: newMessage.trim(),
       messageType: 'text'
     };
 
+    console.log('Sending message:', messageData);
     socket.emit('send_message', messageData);
     setNewMessage('');
   };
@@ -100,7 +101,7 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
     
     if (socket) {
       socket.emit('typing', {
-        senderId: currentUser.id,
+        senderId: currentUser._id,
         receiverId: selectedUser._id,
         isTyping: true
       });
@@ -113,7 +114,7 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
       // Set timeout to stop typing indicator
       typingTimeoutRef.current = setTimeout(() => {
         socket.emit('typing', {
-          senderId: currentUser.id,
+          senderId: currentUser._id,
           receiverId: selectedUser._id,
           isTyping: false
         });
@@ -123,27 +124,17 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
 
   const handleDeleteMessage = async (messageId) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`/api/chat/message/${messageId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        // Remove the message from local state
-        setMessages(prev => prev.filter(msg => msg._id !== messageId));
-        
-        // Emit socket event to notify other user about message deletion
-        if (socket) {
-          socket.emit('message_deleted', {
-            messageId,
-            conversationId: [currentUser.id, selectedUser._id].sort().join('_')
-          });
-        }
-      } else {
-        console.error('Failed to delete message');
+      await axios.delete(`/api/chat/message/${messageId}`);
+      
+      // Remove the message from local state
+      setMessages(prev => prev.filter(msg => msg._id !== messageId));
+      
+      // Emit socket event to notify other user about message deletion
+      if (socket) {
+        socket.emit('message_deleted', {
+          messageId,
+          conversationId: [currentUser._id, selectedUser._id].sort().join('_')
+        });
       }
     } catch (error) {
       console.error('Error deleting message:', error);
@@ -156,30 +147,19 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
     }
 
     try {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`/api/chat/conversation/${selectedUser._id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (response.ok) {
-        // Clear messages from local state
-        setMessages([]);
-        setShowMenu(false);
-        
-        // Emit socket event to notify other user
-        if (socket) {
-          const conversationId = [currentUser.id, selectedUser._id].sort().join('_');
-          socket.emit('conversation_cleared', {
-            conversationId,
-            clearedBy: currentUser.id
-          });
-        }
-      } else {
-        console.error('Failed to clear conversation');
-        alert('Failed to clear conversation. Please try again.');
+      await axios.delete(`/api/chat/conversation/${selectedUser._id}`);
+      
+      // Clear messages from local state
+      setMessages([]);
+      setShowMenu(false);
+      
+      // Emit socket event to notify other user
+      if (socket) {
+        const conversationId = [currentUser._id, selectedUser._id].sort().join('_');
+        socket.emit('conversation_cleared', {
+          conversationId,
+          clearedBy: currentUser._id
+        });
       }
     } catch (error) {
       console.error('Error clearing conversation:', error);
@@ -246,7 +226,7 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message, index) => {
           const senderId = message.sender?._id || message.sender;
-          const isOwnMessage = senderId === currentUser.id;
+          const isOwnMessage = senderId === currentUser._id;
           return (
             <div
               key={index}
