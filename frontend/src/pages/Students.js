@@ -264,7 +264,7 @@ const Students = () => {
                         </div>
                         <div className="flex-1 overflow-hidden">
                           <iframe
-                            src={`/api/upload/resume/view/${selectedResume.filename}`}
+                            src={`${axios.defaults.baseURL}/api/upload/resume/view/${selectedResume.filename}`}
                             className="w-full h-full border-0"
                             title="Resume Viewer"
                           />

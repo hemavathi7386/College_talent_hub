@@ -514,7 +514,8 @@ const Profile = () => {
                         <span>View</span>
                       </button>
                       <a
-                        href={`/api/upload/resume/${resume.filename}`}
+                        href={`${axios.defaults.baseURL}/api/upload/resume/${resume.filename}`}
+                        download
                         className="flex items-center space-x-1 text-primary hover:text-secondary"
                       >
                         <Download className="h-4 w-4" />
@@ -797,7 +798,7 @@ const Profile = () => {
             </div>
             <div className="flex-1 overflow-hidden">
               <iframe
-                src={`/api/upload/resume/view/${resume.filename}`}
+                src={`${axios.defaults.baseURL}/api/upload/resume/view/${resume.filename}`}
                 className="w-full h-full border-0"
                 title="Resume Viewer"
               />
