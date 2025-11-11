@@ -292,17 +292,8 @@ const Students = () => {
                   className="w-full inline-flex items-center justify-center space-x-2 px-4 py-2 bg-centurion-600 text-white rounded-lg hover:bg-centurion-700 transition-colors text-sm font-medium"
                 >
                   <Mail className="h-4 w-4" />
-                  <span>Send Email</span>
+                  <span>Contact</span>
                 </a>
-                {student.phoneNumber && (
-                  <a
-                    href={`tel:${student.phoneNumber}`}
-                    className="w-full inline-flex items-center justify-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
-                  >
-                    <Phone className="h-4 w-4" />
-                    <span>Call Now</span>
-                  </a>
-                )}
               </div>
             </div>
           ))
