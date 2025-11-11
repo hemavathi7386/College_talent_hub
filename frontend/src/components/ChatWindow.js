@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Phone, Video, MoreVertical, Paperclip, Trash2, MessageSquareOff } from 'lucide-react';
+import { Send, Phone, Video, MoreVertical, Paperclip, Trash2, Trash } from 'lucide-react';
 import io from 'socket.io-client';
 import axios from 'axios';
 
@@ -227,7 +227,7 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
                   onClick={handleClearChat}
                   className="w-full flex items-center space-x-2 px-4 py-3 text-left text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                 >
-                  <MessageSquareOff size={18} />
+                  <Trash size={18} />
                   <span>Clear Chat</span>
                 </button>
               </div>
