@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Phone, Video, MoreVertical, Paperclip, Trash2 } from 'lucide-react';
 import io from 'socket.io-client';
+import axios from 'axios';
 
 const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
   const [messages, setMessages] = useState([]);
@@ -11,8 +12,12 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
   const typingTimeoutRef = useRef(null);
 
   useEffect(() => {
-    // Initialize socket connection
-    const newSocket = io('http://localhost:5000');
+    // Initialize socket connection with backend URL
+    const socketURL = axios.defaults.baseURL || process.env.REACT_APP_API_URL || 'http://localhost:5000';
+    const newSocket = io(socketURL, {
+      transports: ['websocket', 'polling'],
+      withCredentials: true
+    });
     setSocket(newSocket);
 
     // Join user's room
