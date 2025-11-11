@@ -118,11 +118,14 @@ router.get('/', auth, async (req, res) => {
     if (req.user.role !== 'recruiter') {
       const userSkills = Array.isArray(req.user.skills) ? req.user.skills : [];
       jobs = jobs.map(job => ({
-        ...job.toObject(),
+        ...job.toObject({ virtuals: true }),
         skillMatch: job.calculateSkillMatch(userSkills)
       }))
       // Sort with higher skill matches first; jobs without match will naturally go to bottom
       .sort((a, b) => (b.skillMatch || 0) - (a.skillMatch || 0));
+    } else {
+      // For recruiters, also include virtuals
+      jobs = jobs.map(job => job.toObject({ virtuals: true }));
     }
 
     const total = await Job.countDocuments(query);
@@ -152,7 +155,7 @@ router.get('/:id', auth, async (req, res) => {
       return res.status(404).json({ message: 'Job not found' });
     }
 
-    let response = job.toObject();
+    let response = job.toObject({ virtuals: true });
 
     // Add skill match for students
     if (req.user.role === 'student') {

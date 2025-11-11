@@ -78,7 +78,9 @@ const jobSchema = new mongoose.Schema({
     default: true
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
 // Virtual for applicant count
