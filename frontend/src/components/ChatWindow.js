@@ -245,7 +245,8 @@ const ChatWindow = ({ currentUser, selectedUser, onClose }) => {
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message, index) => {
-          const isOwnMessage = message.sender._id === currentUser.id;
+          const senderId = message.sender?._id || message.sender;
+          const isOwnMessage = senderId === currentUser.id;
           return (
             <div
               key={index}

@@ -107,6 +107,7 @@ io.on('connection', (socket) => {
       
       await message.save();
       await message.populate('sender', 'name email role');
+      await message.populate('receiver', 'name email role');
       
       // Send to both users
       io.to(receiverId).emit('receive_message', message);
