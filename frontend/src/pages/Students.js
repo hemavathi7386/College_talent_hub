@@ -14,8 +14,7 @@ import {
   Github,
   Globe,
   Star,
-  Eye,
-  X
+  Eye
 } from 'lucide-react';
 
 const Students = () => {
@@ -25,8 +24,6 @@ const Students = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [departmentFilter, setDepartmentFilter] = useState('all');
   const [skillFilter, setSkillFilter] = useState('');
-  const [selectedResume, setSelectedResume] = useState(null);
-  const [showResumeModal, setShowResumeModal] = useState(false);
 
   const departments = [
     'Computer Science Engineering',
@@ -245,33 +242,6 @@ const Students = () => {
                       </div>
                     )}
                   </div>
-                
-                  {/* Resume Viewer Modal */}
-                  {showResumeModal && selectedResume && (
-                    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-                      <div className="bg-white rounded-lg w-full max-w-5xl h-[90vh] flex flex-col">
-                        <div className="flex items-center justify-between p-4 border-b">
-                          <h3 className="text-lg font-semibold text-gray-900">{selectedResume.originalName || 'Resume'}</h3>
-                          <button
-                            onClick={() => {
-                              setShowResumeModal(false);
-                              setSelectedResume(null);
-                            }}
-                            className="text-gray-500 hover:text-gray-700"
-                          >
-                            <X className="h-6 w-6" />
-                          </button>
-                        </div>
-                        <div className="flex-1 overflow-hidden">
-                          <iframe
-                            src={`${axios.defaults.baseURL}/api/upload/resume/view/${selectedResume.filename}`}
-                            className="w-full h-full border-0"
-                            title="Resume Viewer"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  )}
                 </div>
               )}
 
@@ -317,31 +287,24 @@ const Students = () => {
                 </div>
               )}
 
-              {/* Resume Button */}
-              {student.resume && student.resume.filename && (
-                <div className="pb-4 border-b border-gray-100">
-                  <button
-                    onClick={() => {
-                      setSelectedResume(student.resume);
-                      setShowResumeModal(true);
-                    }}
-                    className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
-                  >
-                    <Eye className="h-4 w-4" />
-                    <span>View Resume</span>
-                  </button>
-                </div>
-              )}
-
-              {/* Contact Button */}
-              <div className="pt-4 border-t border-gray-100">
+              {/* Contact Buttons */}
+              <div className="pt-4 border-t border-gray-100 space-y-2">
                 <a
                   href={`mailto:${student.personalEmail || student.email}`}
                   className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-centurion-600 text-white rounded-lg hover:bg-centurion-700 transition-colors text-sm"
                 >
                   <Mail className="h-4 w-4" />
-                  <span>Contact</span>
+                  <span>Send Email</span>
                 </a>
+                {student.phoneNumber && (
+                  <a
+                    href={`tel:${student.phoneNumber}`}
+                    className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm"
+                  >
+                    <Phone className="h-4 w-4" />
+                    <span>Call Now</span>
+                  </a>
+                )}
               </div>
             </div>
           ))
