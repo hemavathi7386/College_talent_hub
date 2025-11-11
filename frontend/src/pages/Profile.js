@@ -172,6 +172,30 @@ const Profile = () => {
     }
   };
 
+  const handleResumeDownload = async () => {
+    try {
+      const response = await axios.get(`/api/upload/resume/${resume.filename}`, {
+        responseType: 'blob',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      
+      // Create blob link to download
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', resume.originalName || 'resume.pdf');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      toast.error('Failed to download resume');
+      console.error('Download error:', error);
+    }
+  };
+
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -513,14 +537,13 @@ const Profile = () => {
                         <Eye className="h-4 w-4" />
                         <span>View</span>
                       </button>
-                      <a
-                        href={`${axios.defaults.baseURL}/api/upload/resume/${resume.filename}`}
-                        download
+                      <button
+                        onClick={handleResumeDownload}
                         className="flex items-center space-x-1 text-primary hover:text-secondary"
                       >
                         <Download className="h-4 w-4" />
                         <span>Download</span>
-                      </a>
+                      </button>
                       <label className="flex items-center space-x-1 text-primary hover:text-secondary cursor-pointer">
                         <Upload className="h-4 w-4" />
                         <span>Replace</span>
