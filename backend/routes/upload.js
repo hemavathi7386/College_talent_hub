@@ -95,4 +95,35 @@ router.get('/resume/:filename', auth, (req, res) => {
   }
 });
 
+// @route   GET /api/upload/resume/view/:filename
+// @desc    View resume file inline (for preview)
+// @access  Private
+router.get('/resume/view/:filename', auth, (req, res) => {
+  try {
+    const filename = req.params.filename;
+    const filepath = path.join(__dirname, '../uploads/resumes/', filename);
+    const fs = require('fs');
+    
+    // Check if file exists
+    if (!fs.existsSync(filepath)) {
+      return res.status(404).json({ message: 'File not found' });
+    }
+    
+    // Set headers for inline display
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'inline');
+    
+    // Send file
+    res.sendFile(filepath, (err) => {
+      if (err) {
+        console.error('Error sending file:', err);
+        return res.status(500).json({ message: 'Error loading file' });
+      }
+    });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Edit2, Save, X, Plus, Award, Mail, Building, BookOpen, Upload, Download, Briefcase, Phone, Linkedin, Github, Globe } from 'lucide-react';
+import { Edit2, Save, X, Plus, Award, Mail, Building, BookOpen, Upload, Download, Briefcase, Phone, Linkedin, Github, Globe, Eye } from 'lucide-react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
@@ -40,6 +40,7 @@ const Profile = () => {
     description: '',
     skills: []
   });
+  const [showResumeModal, setShowResumeModal] = useState(false);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -505,6 +506,13 @@ const Profile = () => {
                       </div>
                     </div>
                     <div className="flex space-x-2">
+                      <button
+                        onClick={() => setShowResumeModal(true)}
+                        className="flex items-center space-x-1 text-primary hover:text-secondary"
+                      >
+                        <Eye className="h-4 w-4" />
+                        <span>View</span>
+                      </button>
                       <a
                         href={`/api/upload/resume/${resume.filename}`}
                         className="flex items-center space-x-1 text-primary hover:text-secondary"
@@ -770,9 +778,33 @@ const Profile = () => {
                 <span>Cancel</span>
               </button>
             </div>
-          )}
+          )}  
         </div>
       </div>
+
+      {/* Resume Viewer Modal */}
+      {showResumeModal && resume && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg w-full max-w-5xl h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between p-4 border-b">
+              <h3 className="text-lg font-semibold text-gray-900">{resume.originalName}</h3>
+              <button
+                onClick={() => setShowResumeModal(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <iframe
+                src={`/api/upload/resume/view/${resume.filename}`}
+                className="w-full h-full border-0"
+                title="Resume Viewer"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
