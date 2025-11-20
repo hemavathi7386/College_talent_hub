@@ -14,7 +14,8 @@ import {
   Building,
   Star,
   Edit,
-  Trash2
+  Trash2,
+  CheckCircle
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -468,17 +469,27 @@ const Jobs = () => {
                   )}
                   
                   {user?.role === 'student' && (
-                    <button
-                      onClick={() => handleApplyJob(job._id)}
-                      disabled={!job.isApplicationOpen}
-                      className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
-                        job.isApplicationOpen
-                          ? 'bg-primary text-white'
-                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                      }`}
-                    >
-                      {job.isApplicationOpen ? 'Apply Now' : 'Deadline Passed'}
-                    </button>
+                    job.applicants && job.applicants.some(a => a.user?._id === user._id || a.user === user._id || a === user._id) ? (
+                      <button
+                        disabled
+                        className="px-4 py-2 rounded-xl text-sm font-medium bg-green-100 text-green-700 cursor-not-allowed flex items-center space-x-2"
+                      >
+                        <CheckCircle className="h-4 w-4" />
+                        <span>Applied</span>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleApplyJob(job._id)}
+                        disabled={!job.isApplicationOpen}
+                        className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                          job.isApplicationOpen
+                            ? 'bg-primary text-white hover:bg-primary-dark'
+                            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                        }`}
+                      >
+                        {job.isApplicationOpen ? 'Apply Now' : 'Deadline Passed'}
+                      </button>
+                    )
                   )}
 
                   {user?.role === 'recruiter' && (
