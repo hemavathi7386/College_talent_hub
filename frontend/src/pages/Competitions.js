@@ -19,7 +19,8 @@ import {
   ChevronDown,
   ChevronUp,
   Edit,
-  Trash2
+  Trash2,
+  Check
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -598,7 +599,15 @@ const Competitions = () => {
                       <span>External Link</span>
                     </a>
                   )}
-                  {isRegistrationOpen(competition) ? (
+                  {competition.participants && competition.participants.some(p => p.user?._id === user._id || p.user === user._id) ? (
+                    <button
+                      disabled
+                      className="px-4 py-2 bg-green-100 text-green-700 rounded-lg cursor-not-allowed flex items-center space-x-2"
+                    >
+                      <Check className="h-4 w-4" />
+                      <span>Registered</span>
+                    </button>
+                  ) : isRegistrationOpen(competition) ? (
                     <button
                       onClick={() => handleRegister(competition._id)}
                       className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
